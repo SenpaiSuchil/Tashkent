@@ -1,0 +1,2 @@
+DISCORD_TOKEN="MTAzNzc3NjY4NDU5MTYyMDE5Ng.G4oEg7.scIJgW9mcMFFnTzJ7nbVSJQvOsbVxscGrRtHsk"
+#key de pochita
