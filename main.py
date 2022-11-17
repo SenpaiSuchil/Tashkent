@@ -64,6 +64,12 @@ async def set_reminder(ctx):
     dataBase.get()
     pass
 
+
+@ducky.command()
+async def get(ctx):
+    dataBase.get()
+
+    
 @tasks.loop(minutes=1)
 async def reminder():
     pass
