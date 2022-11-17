@@ -1,5 +1,5 @@
 import discord
-from ducky import *
+from tashkent import *
 from apiKeys import *
 from dataBase import *
 import datetime
@@ -8,24 +8,24 @@ intents = discord.Intents.all()
 intents.members=True
 nekoThreads={}
 dataBase=myDataBase()
-ducky = myBot(command_prefix='-', intents=discord.Intents().all())
+tashkent = myBot(command_prefix='-', intents=discord.Intents().all())
 
 TOKEN=DISCORD_TOKEN
 
-@ducky.event
+@tashkent.event
 async def on_ready():
-    await ducky.change_presence(activity=discord.Activity(type=discord.ActivityType.listening, name="SenpaiSuchil"))
-    print("rubber ducky is ready!!!!!")
+    await tashkent.change_presence(activity=discord.Activity(type=discord.ActivityType.listening, name="SenpaiSuchil"))
+    print("Tashkent is ready!!!!!")
     print("-----------------------------")
 
-@ducky.event
+@tashkent.event
 async def on_member_join(member):
     guild = member.guild
     if(guild.system_channel is not None):
         msg=f"Bienvenido: {member.mention} a {guild.name}!!!!"
         await guild.system_channel.send(msg)
 
-@ducky.event
+@tashkent.event
 async def on_member_remove(member):
     guild = member.guild
     if(guild.system_channel is not None):
@@ -34,7 +34,7 @@ async def on_member_remove(member):
 
 #--------------------------------- zona de comandos -------------------------------------------
 
-@ducky.command()
+@tashkent.command()
 async def schedule_start(ctx):
     author=ctx.message.author
     embed=discord.Embed(title="Recordatorio Activado", description="Se recordará que deben de hacer estiramientos!!!!")
@@ -43,19 +43,19 @@ async def schedule_start(ctx):
     await ctx.send(embed=embed)
     reminder.start()
 
-@ducky.command()
+@tashkent.command()
 async def schedule_stop(ctx):
     reminder.stop()
     await ctx.send(f"recordatorio desactivado!!!!!")
 
-@ducky.command()
+@tashkent.command()
 async def saludo(ctx):
     author=ctx.message.author
-    user=ducky.get_user(author.id)
+    user=tashkent.get_user(author.id)
     await user.send("olaaaaaa")
 
 
-@ducky.command()
+@tashkent.command()
 async def set_reminder(ctx):
     time=datetime.datetime.now()
     author=ctx.message.author
@@ -65,7 +65,7 @@ async def set_reminder(ctx):
     pass
 
 
-@ducky.command()
+@tashkent.command()
 async def get(ctx):
     dataBase.get()
 
@@ -75,4 +75,4 @@ async def reminder():
     pass
 
 
-ducky.run(TOKEN)
+tashkent.run(TOKEN)
