@@ -65,7 +65,8 @@ async def set_reminder(ctx):
     if verify==0:
         #if is not in the database
         time=datetime.datetime.now()
-        dataBase.insert(str(author.id), f"{time}", 1 )
+        #send the time twice because is the same value the first time
+        dataBase.insert(str(author.id), f"{time}", f"{time}", 1 )
         await ctx.reply("tu recordatorio se guardó correctamente!")
     if verify==1:
         #if the user is already in the database with an active reminder
@@ -82,13 +83,39 @@ async def get(ctx):
 
 
 #--------------------------------- loops zone -------------------------------------------#
+#this loop will check every minute the list of people who activated the reminder checking if and hour has passed or not
 @tasks.loop(minutes=1)
 async def reminder():
     list=dataBase.get()
-    time=datetime.datetime.now()
+    currentDate=datetime.datetime.now()
     for i in list:
-        date=datetime.datetime.strptime(str(i[0]), "%Y-%m-%d %H:%M:%S")
-        delta=datetime.timedelta(minutes=1)
+        #i[0] -----> last date update
+        #i[1] -----> user id
+        #i[2] -----> start date
+
+        dateQuery=datetime.datetime.strptime(str(i[0]), "%Y-%m-%d %H:%M:%S")
+        startQuery=datetime.datetime.strptime(str(i[2]), "%Y-%m-%d %H:%M:%S")
+        delta1=datetime.timedelta(minutes=1)
+        delta8=datetime.timedelta(minutes=3)
+        user=tashkent.get_user(int(i[1]))
+        if (currentDate-delta8)>=startQuery:
+            
+            await user.send("Has trabajado 8 Horas consecutivas, el recordatorio se desactivará automaticamente, si deseas activarlo escribe nuevamente en el servidor -set_reminder")
+            dataBase.changeStatus(str(i[1]))
+
+        if (currentDate-delta1)>=dateQuery:
+            print(f" hora calculada: {dateQuery+delta1} ||||| hora actual: {currentDate}")
+
+            dataBase.changeDate(f"{currentDate}", str(i[1]))
+            for j in range(10):
+                await user.send("Hola!!!!! este es un recordatorio para hacer tus ejercicios de muñeca y tomar un poco de aire lejos de la PC!!!!!!")
+            
+        
+
+
+
+
+
         
 
 

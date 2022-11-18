@@ -1,5 +1,6 @@
 #import mariadb
 import mysql.connector
+import datetime
 
 class myDataBase():
     connector=mysql.connector.connect(
@@ -15,16 +16,16 @@ class myDataBase():
     def __init__(self):
         super().__init__()
 
-    def insert(self, id, hour, status):
+    def insert(self, id, time_start, time_stamp, status):
         #insert values into the database
-        sql="INSERT INTO reminders (user_id, time_stamp, reminder_status) VALUES (%s, %s, %s)"
-        values=(f"{id}", f"{hour}", status)
+        sql="INSERT INTO reminders (user_id, time_start, time_stamp, reminder_status) VALUES (%s, %s, %s, %s)"
+        values=(f"{id}", f"{time_start}", f"{time_stamp}", status)
         self.cursor.execute(sql, values)
         self.connector.commit()
 
     def get(self):
         #get the list of people who activated the reminder to check them in the loop task
-        self.cursor.execute("SELECT time_stamp, user_id FROM reminders WHERE reminder_status=1")
+        self.cursor.execute("SELECT time_stamp, user_id, time_start FROM reminders WHERE reminder_status=1")
         result=self.cursor.fetchall()
         return result
 
@@ -38,13 +39,26 @@ class myDataBase():
         if len(result)>0:
             status=result[0][2]
             if status==1:
+                
                 return 1
             if status==0:
-                sql=f"UPDATE reminders SET reminder_status=1 WHERE user_id={id}"
-                self.cursor.execute(sql)
+
+                time=str(datetime.datetime.now())
+                sql=f"UPDATE reminders SET reminder_status=1, time_start=%s WHERE user_id=%s"
+                values=(f"{time}", f"{id}")
+                self.cursor.execute(sql, values)
                 self.connector.commit()
                 return 2
         else:
             return 0
+
     def changeDate(self, newDate, id):
-        pass
+        sql=f"UPDATE reminders SET time_stamp=%s WHERE user_id=%s"
+        values=(f"{newDate}", f"{id}")
+        self.cursor.execute(sql, values)
+        self.connector.commit()
+    
+    def changeStatus(self, id):
+        sql=f"UPDATE reminders SET reminder_status=0 WHERE user_id={id}"
+        self.cursor.execute(sql)
+        self.connector.commit()
