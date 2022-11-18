@@ -88,8 +88,8 @@ async def reminder():
 
         dateQuery=datetime.datetime.strptime(str(i[0]), "%Y-%m-%d %H:%M:%S")
         startQuery=datetime.datetime.strptime(str(i[2]), "%Y-%m-%d %H:%M:%S")
-        delta1=datetime.timedelta(minutes=1)
-        delta8=datetime.timedelta(minutes=3)
+        delta1=datetime.timedelta(hours=1)
+        delta8=datetime.timedelta(hours=8)
         user=tashkent.get_user(int(i[1]))
         
 
