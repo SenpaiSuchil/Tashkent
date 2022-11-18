@@ -61,5 +61,5 @@ class myDataBase():
     def changeStatus(self, id, value):
         sql=f"UPDATE reminders SET reminder_status=%s WHERE user_id=%s"
         values=(value, id)
-        self.cursor.execute(sql)
+        self.cursor.execute(sql, values)
         self.connector.commit()

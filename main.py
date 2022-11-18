@@ -16,7 +16,7 @@ TOKEN=DISCORD_TOKEN
 def embedMaker(title, desc):
     embed=discord.Embed(title=f"{title}", description=f"{desc}")
     embed.set_image(url="https://cdn.discordapp.com/attachments/630553822036623370/683343006757290009/tskt_azurlane200229.gif")
-    embed.add_field(name="**Nota:**", value=f"Para desactivarlo escribe en el server -stop_reminder")
+    embed.add_field(name="**Nota:**", value=f"Escribe -stop_reminder en el server o aqui para desactivarlo")
     embed.add_field(name="**Duración:**", value=f"Cada Hora durante 8 horas")
     return embed
 
