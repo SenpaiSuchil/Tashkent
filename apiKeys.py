@@ -1,2 +1,2 @@
-DISCORD_TOKEN="MTAzNzc3NjY4NDU5MTYyMDE5Ng.G4oEg7.scIJgW9mcMFFnTzJ7nbVSJQvOsbVxscGrRtHsk"
+DISCORD_TOKEN="put your key here"
 #key de pochita
